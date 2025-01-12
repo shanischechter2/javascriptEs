@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="position: relative; display:inline-block;">
+        <div  style="position:absolute; display:flex; width:100%; align-items:center;">
+            <div style="position: relative; height: 30px; width: 100%;display:flex; justify-content: flex-end;">
+                <div   style="background-color: rgb(255, 0, 0); height: 30px; width: 100%"></div>
+                <div  id="playerlife" style="position:absolute;background-color: rgb(26, 255, 0); top:0;right:0;bottom:0; width: 100%;"> </div>
+            </div>
+            
+            <div id="countwins" style="background-color: rgb(255, 51, 0); height: 100px; width: 100px; flex-shrink:0;display:flex;align-items:center; justify-content: center;">
+                
+            </div>
+
+
+            <div style="position: relative; height: 30px; width: 100%">
+                    <div style="background-color: rgb(255, 0, 0); height: 30px;"></div>
+                    <div  id="enemylife" style="position:absolute;background-color: rgb(26, 255, 0); top:0;right:0;left:0;bottom:0;"> </div>
+            </div>
+        
+
+        </div >
+
+        
+         <canvas></canvas>
+    </div>
+   
+    <script src="js/classes.js"></script>
+    <script src="java.js"></script>
+</body>
+</html>
