@@ -2,7 +2,7 @@
 
 
 class Sprite{
-    constructor({position,imgSrc,scal=1,framax=1,offset={x:0,y:0},  framhold}){
+    constructor({position,imgSrc,scal=1,framax=1,offset={x:0,y:0},  framhold,canvas}){
         this.position =position;
      
         this.height=150;
@@ -16,9 +16,21 @@ class Sprite{
     //    this.framhold=6.5;
         this.offset=offset;
         this.framhold=framhold;
+        this.canvas=canvas;
+        this.c=canvas.getContext('2d');
+        this._imgSrc = imgSrc; 
+    }
+    // get imgSrc() {
+    //     return this._imgSrc;
+    // }
+
+    setimgSrc(newSrc) {
+        // this._imgSrc = newSrc;
+         this.img.src = newSrc; 
+      
     }
     animatted(){
-        
+      
         this.framelapsd++;
         if(this.framelapsd%this.framhold===0)
             {
@@ -38,7 +50,7 @@ class Sprite{
 
     draw(){
          
-       c.drawImage(this.img,
+       this.c.drawImage(this.img,
        this.framcurrent*(this.img.width/this.framax) ,
         0,
         this.img.width /this.framax,
@@ -47,18 +59,21 @@ class Sprite{
         this.position.y-this.offset.y,
         (this.img.width/this.framax) *this.scal 
         ,this.img.height*this.scal);
-         
+
+   
     }
     update(){
         this.draw();
        this.animatted();
 
     }
+  
+
  
 }
 
 class Fighter extends Sprite{
-    constructor({position,velocity,sprites,color,offset, imgSrc,scal=1,framax=1,framhold}){
+    constructor({position,velocity,sprites,color,offset, imgSrc,scal=1,framax=1,framhold,canvas}){
         
       super(
             {
@@ -67,7 +82,8 @@ class Fighter extends Sprite{
                 scal,
                 framax,
                 offset,
-                framhold
+                framhold,
+                canvas
 
            
             }
@@ -87,6 +103,7 @@ class Fighter extends Sprite{
             offset
         }
         this.color=color;
+        this.canAttack = true;
         this.sprites=sprites
         this.lastkey;
         this.isAtccing=false;
@@ -101,7 +118,6 @@ class Fighter extends Sprite{
             sprites[s].img.src=sprites[s].imgSrc;
          }
     }
-    
    
     update(){
         this.draw();
@@ -115,22 +131,22 @@ class Fighter extends Sprite{
    
        this.position.x+=this.velocity.x;
         this.position.y+=this.velocity.y;
-       if(this.position.y+this.height+this.velocity.y>=canvas.height-400)
+       if(this.position.y+this.height+this.velocity.y>=this.canvas.height-400)
        {
+        
          this.velocity.y=0;
+         this.position.y = this.canvas.height - 400 - this.height; // Correct position on the ground
+
+         // Only switch to "stand" if not moving horizontally
+         if (this.velocity.x === 0) {
+             this.switchSptite('stand');
+         }
+
+         
        }
        else{
         this.velocity.y+=gravity;
-    //     if(this.framcurrent<this.framax-1)
-    //         {
-          
-    //             this.framcurrent++;
-    //         }else{
-    //              this.framcurrent=0;
-    //             // this.framcurrent=5;
-                
-                
-    //         }
+ 
         }
     //    if (this.position.x + this.width + this.velocity.x >= canvas.width) {
     //     this.velocity.x = 0;
@@ -140,10 +156,10 @@ class Fighter extends Sprite{
         this.velocity.x = 0;
         this.position.x = 0;
     }
-    else if(this.position.x + this.velocity.x >= canvas.width)
+    else if(this.position.x + this.velocity.x >= this.canvas.width)
     {
         this.velocity.x = 0;
-        this.position.x = canvas.width;
+        this.position.x = this.canvas.width;
         this.position.y=260;
     }
  
@@ -152,35 +168,37 @@ class Fighter extends Sprite{
         this.velocity.x = 0;
         this.position.x = 0; 
     }
+    if (this.position.x + this.velocity.x <= 0) {
+        this.velocity.x = 0;
+        this.position.x = 0;
+    } else if (this.position.x + this.velocity.x >= this.canvas.width) {
+        this.velocity.x = 0;
+        this.position.x = this.canvas.width;
+    }
      
 
 
     }
-    attackplayer()
+    attack()
     {
-        this.switchSptite('attak1');
-
-        this.isAtccing=true;
-        setTimeout(() => {
-            this.isAtccing=false;
-        }, 100);
+        if (this.canAttack) { // Attack allowed check
+            this.switchSptite('attak1');
+            this.isAtccing = true;
+            this.canAttack = false; // Lock attack
+            setTimeout(() => {
+                this.isAtccing = false;
+            }, 10); // End animation state
+        }
     }
-    attackenemy()
-    {
-        this.switchSptite('attak1');
-        this.isAtccing=true;
-        setTimeout(() => {
-            this.isAtccing=false;
-        }, 100);
-    }
+  
 
     switchSptite(sprite)
     {
 
         if(this.img===this.sprites.attak1.img&&this.framcurrent<this.sprites.attak1.framax-1) 
-            {
+         {
                 return;
-            }
+         }
         switch(sprite){
          case 'stand':
             
@@ -201,7 +219,7 @@ class Fighter extends Sprite{
                 this.img=this.sprites.run.img;
                  this.framax=this.sprites.run.framax;
                this.framcurrent=0;
-               this.framhold=10;
+               this.framhold=5;
                 // this.animatted();
             }
              
@@ -216,7 +234,7 @@ class Fighter extends Sprite{
                 // this.animatted();
             }
              
-            break;   
+            break;   dameg
             case 'attak1':
                 if(this.img!==this.sprites.attak1.img)
                     {
@@ -228,6 +246,30 @@ class Fighter extends Sprite{
                     }
                      
                     break;  
+
+                    case 'dameg':
+                        if(this.img!==this.sprites.dameg.img)
+                            {
+                                this.img=this.sprites.dameg.img;
+                                 this.framax=this.sprites.dameg.framax;
+                                 this.framhold=this.sprites.dameg.framhold;
+                                 this.framcurrent=0;
+                             //   this.animatted();
+                            }
+                             
+                            break;  
+
+         case 'runback':
+            if(this.img!==this.sprites.runback.img)
+              {
+                 this.img=this.sprites.runback.img
+                   this.framax=this.sprites.runback.framax;
+                // this.framhold=this.sprites.runback.framhold;
+                 this.framcurrent=0;
+                 //   this.animatted();
+                     }
+                                     
+               break;                 
 
         }
         

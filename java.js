@@ -1,8 +1,13 @@
 const canvas= document.querySelector('canvas');
-const c=canvas.getContext('2d');
+canvas.style.width = '100%';
 
-canvas.width=1700;
-canvas.height=810;
+canvas.style.height = '100%';
+
+canvas.width = window.innerWidth;  
+canvas.height = window.innerHeight; 
+const c=canvas.getContext('2d');
+//context.scale(canvas.width / window.innerWidth, canvas.height / window.innerHeight);
+
 
 c.fillRect(0,0,canvas.width,canvas.height);
 const gravity=0.8;
@@ -12,7 +17,9 @@ const backround= new Sprite({
         x:0,
         y:0
     },
-    imgSrc: './img/back2.jpg'
+    imgSrc: './img/back2.jpg',
+    canvas: canvas,
+    scal:1.02
 })
 const shop= new Sprite({
     position: {
@@ -22,6 +29,7 @@ const shop= new Sprite({
     imgSrc: './img/shop.png',
     scal: 2.5,
     framax:6,
+    canvas: canvas,
     framhold:8
 })
 
@@ -44,6 +52,7 @@ const player=new Fighter({
      framax:3,
      framhold:10,
      scal:0.5,
+     canvas: canvas,
      offset:{
         x:100,
         y:100
@@ -57,6 +66,10 @@ const player=new Fighter({
         },
         run:{
             imgSrc: './img/mayar.png',
+            framax: 6
+        },
+        runback:{
+            imgSrc: './img/mayarback.png',
             framax: 6
         },
         jump:{
@@ -90,6 +103,7 @@ const enemy=new Fighter({
         imgSrc: './img/yotamstand1.png',
         framax:7,
         framhold:13,
+        canvas: canvas,
         scal:0.5,
         offset:{
            x:100,
@@ -98,12 +112,18 @@ const enemy=new Fighter({
         sprites:{
            stand:{
                imgSrc: './img/yotamstand1.png',
-               framax:7
-           
-   
+               framax:7   
            },
+           standback:{
+            imgSrc: './img/yotamstand1back.png',
+            framax:7
+        },
            run:{
             imgSrc: './img/yrun.png',
+            framax: 4
+           },
+            runback:{
+            imgSrc: './img/yrunback.png',
             framax: 4
            },
            jump:{
@@ -114,7 +134,12 @@ const enemy=new Fighter({
                imgSrc: './img/yotamaccak2.png',
                framax: 7,
               framhold:5
-           }
+           },  
+            dameg:{
+            imgSrc: './img/yotamaret1.png',
+            framax: 7,
+           framhold:2
+        }
          }
 
 });
@@ -136,12 +161,23 @@ const keys={
 console.log(keys);
 let k;
 let flag=false;
+let gamecontrolindex=null;
+let leftpress=false;
+let rightpress=false;
+let uppress=false;
+
+let downpress=false;
+
+let attackmaya=false;
 
 function isover({r1,r2})
 {
-    return (r1.attacbax.position.x+r1.attacbax.width>=r2.attacbax.position.x&&
-        r1.attacbax.position.x<=r2.position.x+r2.width&&
-        r1.attacbax.position.y+r1.attacbax.height>=r2.position.y);
+    return (
+        r1.attacbax.position.x + r1.attacbax.width >= r2.attacbax.position.x &&
+        r1.attacbax.position.x <= r2.attacbax.position.x + r2.attacbax.width &&
+        r1.attacbax.position.y + r1.attacbax.height >= r2.attacbax.position.y &&
+        r1.attacbax.position.y <= r2.attacbax.position.y + r2.attacbax.height
+    );
 }
 let y=true;
 const div = document.querySelector('#countwins');
@@ -152,44 +188,144 @@ const div = document.querySelector('#countwins');
 
   }
 
+
+  window.addEventListener("gamepadconnected", (event) => {
+    gamecontrolindex = event.gamepad.index;
+    console.log("connected");
+   
+  });
+  
+  window.addEventListener("gamepaddisconnected", (event) => {
+    console.log("disconnected");
+    gamecontrolindex = null;
+  });
+  function controlerinput()
+  {
+    if(gamecontrolindex!=null){
+        const gamepad=navigator.getGamepads()[gamecontrolindex];
+      
+         const buttons=gamepad.buttons;
+         uppress=buttons[0].pressed;
+         downpress=buttons[13].pressed;
+         rightpress=buttons[14].pressed;
+         leftpress=buttons[15].pressed;
+         attackmaya=buttons[7].pressed;
+
+         const stickdeadzone=0.4;
+         const leftrigthValue=gamepad.axes[0];
+
+         if(leftrigthValue>=stickdeadzone){
+            leftpress=true;
+         } else if(leftrigthValue<=-stickdeadzone){
+            rightpress=true;
+         }
+
+         
+         if (attackmaya && player.canAttack) {
+            player.attack();
+            player.canAttack = false; // Disable further attacks until reset
+        }
+
+        // Reset attack availability when the button is released
+        if (!attackmaya) {
+            player.canAttack = true; // Re-enable attack on release
+        }
+        console.log("B7 Pressed:", attackmaya, "Can Attack:", player.canAttack);
+
+        
+
+    }
+    moveplayer()
+  }
+  function moveplayer()
+  {
+    
+    if(rightpress)
+        {
+            player.velocity.x=-5
+            player.switchSptite('run');
+        }else if(leftpress)
+        {
+            player.velocity.x=5
+  
+        player.switchSptite('runback');
+        }
+        else{
+        
+                player.switchSptite('stand');
+            
+        }
+
+        
+    
+        
+    if(uppress)
+        {
+            player.velocity.y=-10;
+            // if(player.velocity.y<0||player.velocity.y>0){
+            //      player.switchSptite('jump');
+            // } 
+           
+        }
+   
+    
+
+  }
+  
+
 function anameit()
 {
+ 
     window.requestAnimationFrame(anameit);
+   
+ 
+ 
     c.fillStyle='black'
     c.fillRect(0,0,canvas.width,canvas.height);
     backround.update();
+  
     shop.update();
     player.update();
      enemy.update();
      
     player.velocity.x=0;
     enemy.velocity.x=0;
-   
+    controlerinput();
+    
 
-    if(keys.leftkey.prass&& k==='l'){
-        player.velocity.x=-5
-        player.switchSptite('run');
+    // if(rightpress)
+    // {
+    //     player.velocity.x=-5
+    //     player.switchSptite('run');
+    // }
+ 
+
+    // if(keys.leftkey.prass&& k==='l'){
+    //     player.velocity.x=-5
+    //     player.switchSptite('run');
       
  
         
-    }else if(keys.rightkey.prass&& k==='r')
-    {
-        player.velocity.x=5
+    // }else if(keys.rightkey.prass&& k==='r')
+    // {
+    //     player.velocity.x=5
   
-        player.switchSptite('run');
+    //     player.switchSptite('runback');
        
-    }else {
-        player.switchSptite('stand');
-    }
+    // }else  {
+    //     player.switchSptite('stand');
+    // }
 
-    if(player.velocity.y<0||player.velocity.y>0){
-        player.switchSptite('jump');
-    } 
+    // if(player.velocity.y<0||player.velocity.y>0){
+    //     player.switchSptite('jump');
+    // } 
 //enemy
+
+
 
     if(keys.enemyleft.prass && enemy.lastkey==='l'){
         enemy.velocity.x=-5
-       enemy.switchSptite('run');
+       enemy.switchSptite('runback');
         
     }else if(keys.enemyright.prass && enemy.lastkey==='r')
     {
@@ -205,18 +341,28 @@ function anameit()
     } 
    
   updateWins();
+ 
+
+
+  if (   player.position.x >= shop.position.x &&
+    player.position.x <= shop.position.x + shop.width &&
+    player.position.y >= shop.position.y &&
+    player.position.y <= shop.position.y + shop.height)
+  {
+     movetonew();
+  }
     if(isover({r1: player, r2: enemy})&&player.isAtccing)
     {
-       
-        
-        player.isAtccing=false;
-        enemy.heart-=20;
-        document.querySelector('#playerlife').style.width=enemy.heart+'%';
+        player.isAtccing = false; 
+        enemy.heart -= 10;
+        document.querySelector('#playerlife').style.width = enemy.heart + '%';
+        console.log(enemy.heart)
+     
     }
     if(isover({r1: enemy, r2: player})&&enemy.isAtccing)
         {
             enemy.isAtccing=false;
-            player.heart-=20;
+            player.heart-=10;
           document.querySelector('#enemylife').style.width=player.heart+'%';
           
         }
@@ -350,6 +496,36 @@ function notmaya(){
     
     canvas.style.display = 'block';
 }
+function movetonew()
+{
+ 
+    backround.setimgSrc('./img/b80.png');
+    backround.position.y = 0; 
+    backround.position.x = 0; 
+
+     player.position.x=700;
+     enemy.position.x=200;
+  
+     player.position.y=0;
+     enemy.position.y=0;
+
+     player.offset.x=0;
+     enemy.offset.x=0
+
+     player.offset.y=20
+     enemy.offset.y=10
+
+     player.scal=0.6
+     enemy.scal=0.6
+     backround.scal=1;
+ 
+
+     shop.position.x=1050
+     shop.position.y=420
+
+
+
+}
   
 
 
@@ -376,7 +552,7 @@ window.addEventListener('keydown', function(e) {
             player.velocity.y=-17
             break;
         case 'Enter':
-            player.attackplayer();
+            player.attack();
            break;
 
            //enemy
@@ -394,9 +570,16 @@ window.addEventListener('keydown', function(e) {
             break;
         case 's':
             enemy.velocity.y=-22
+            console.log(enemy.velocity.y)
             break;
         case 'q':
-            enemy.attackenemy();
+            if ( enemy.canAttack) {
+                enemy.attack();
+                enemy.canAttack = false; // Disable further attacks until reset
+            }
+    
+            // Reset attack availability when the button is released
+    
            break;
     }
 })
@@ -421,13 +604,20 @@ window.addEventListener("keyup", function(e) {
      case 'd':
      keys.enemyright.prass=false;
      break;
+
+     
+     case 'q':
+        enemy.canAttack = true;
+     break;
     //   case 'Enter':
     //     player.isAtccing=false;
-    //    break;
+    //    break;  if (!attackmaya) {
+        // Re-enable attack on release
+    }
 
     
       
-  }
+  
  })
  
 
