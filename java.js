@@ -6,7 +6,7 @@ canvas.style.height = '100%';
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const c = canvas.getContext('2d');
-//context.scale(canvas.width / window.innerWidth, canvas.height / window.innerHeight);
+
 
 
 c.fillRect(0, 0, canvas.width, canvas.height);
@@ -96,11 +96,6 @@ const enemy = new Fighter({
         x: 0,
         y: 0
     },
-
-    // offset:{
-    //    x:50,
-    //    y:0
-    //  },
     imgSrc: './img/yotamstand1.png',
     framax: 7,
     framhold: 13,
@@ -159,7 +154,7 @@ const keys = {
     }
 
 }
-console.log(keys);
+
 let k;
 let flag = false;
 let gamecontrolindex = null;
@@ -191,12 +186,11 @@ function updateWins() {
 
 window.addEventListener("gamepadconnected", (event) => {
     gamecontrolindex = event.gamepad.index;
-    console.log("connected");
 
 });
 
 window.addEventListener("gamepaddisconnected", (event) => {
-    console.log("disconnected");
+
     gamecontrolindex = null;
 });
 function controlerinput() {
@@ -222,12 +216,12 @@ function controlerinput() {
 
         if (attackmaya && player.canAttack) {
             player.attack();
-            player.canAttack = false; // Disable further attacks until reset
+            player.canAttack = false; 
         }
 
-        // Reset attack availability when the button is released
+
         if (!attackmaya) {
-            player.canAttack = true; // Re-enable attack on release
+            player.canAttack = true; 
         }
 
         if (buttons[8].pressed) {
@@ -267,10 +261,6 @@ function moveplayer() {
     if (uppress) {
         player.velocity.y = -10;
         musicjump2.play();
-        // if(player.velocity.y<0||player.velocity.y>0){
-        //      player.switchSptite('jump');
-        // } 
-
     }
 
 
@@ -296,33 +286,6 @@ function anameit() {
     enemy.velocity.x = 0;
     controlerinput();
 
-
-    // if(rightpress)
-    // {
-    //     player.velocity.x=-5
-    //     player.switchSptite('run');
-    // }
-
-
-    // if(keys.leftkey.prass&& k==='l'){
-    //     player.velocity.x=-5
-    //     player.switchSptite('run');
-
-
-
-    // }else if(keys.rightkey.prass&& k==='r')
-    // {
-    //     player.velocity.x=5
-
-    //     player.switchSptite('runback');
-
-    // }else  {
-    //     player.switchSptite('stand');
-    // }
-
-    // if(player.velocity.y<0||player.velocity.y>0){
-    //     player.switchSptite('jump');
-    // } 
     //enemy
 
 
@@ -346,35 +309,31 @@ function anameit() {
     updateWins();
 
 
-    //console.log(player.position.x, shop.position.x, player.position.y, shop.position.y, shop.width, shop.height);
-
+    
     if (player.position.x >= shop.position.x &&
-        player.position.x <= shop.position.x + shop.width  )
-        {
-            if( player.position.y >= shop.position.y &&
-                player.position.y <= shop.position.y + shop.height)
-                {
-                     if (backround.getimgSrc() === './img/back2.jpg') {
-                     movetonew();
-                     console.log("dd");
-                    }
-                }
-                else if( player.position.y <= shop.position.y &&
-                    player.position.y <= shop.position.y + shop.height)
-                {
-                    movetoold();
-                    console.log("old");
-                }
-      
+        player.position.x <= shop.position.x + shop.width) {
+        if (player.position.y >= shop.position.y &&
+            player.position.y <= shop.position.y + shop.height) {
+            if (backround.getimgSrc() === './img/back2.jpg') {
+                movetonew();
+         
+            }
+        }
+        else if (player.position.y <= shop.position.y &&
+            player.position.y >= shop.position.y - shop.height) {
+
+            movetoold();
+        
+        }
+
     }
 
 
     if (isover({ r1: player, r2: enemy }) && player.isAtccing) {
         player.isAtccing = false;
         enemy.heart -= 10;
-        // blood.update();
         document.querySelector('#playerlife').style.width = enemy.heart + '%';
-        console.log(enemy.heart)
+    
 
     }
     if (isover({ r1: enemy, r2: player }) && enemy.isAtccing) {
@@ -444,7 +403,7 @@ function gameover() {
 
     document.body.appendChild(imgyotam2);
     imgyotam2.style.display = 'block';
-    // canvas.style.display = 'none';
+
 
 
 
@@ -574,7 +533,7 @@ function movetoold() {
 
 
 window.addEventListener('keydown', function (e) {
-    //    console.log(e.key);
+
     switch (e.key) {
 
         case "ArrowUp":
@@ -615,53 +574,26 @@ window.addEventListener('keydown', function (e) {
         case 's':
         case "S":
             enemy.velocity.y = -22
-            console.log(enemy.velocity.y)
+       
             break;
         case 'q':
         case "Q":
 
             if (enemy.canAttack) {
                 enemy.attack();
-                enemy.canAttack = false; // Disable further attacks until reset
+                enemy.canAttack = false;
             }
 
 
             break;
-            //    case "W":
-            //     enemy.velocity.y= -10;
-            //     break;
 
-            //  case "A":
-            //     keys.enemyleft.prass=true;
-            //    enemy.lastkey='l'
-            //     break;
-            // case "D":
-            //     keys.enemyright.prass=true;
-            //      enemy.lastkey='r'
-            //     break;
-            // case 'S':
-            //     enemy.velocity.y=-22
-            //     console.log(enemy.velocity.y)
-            //     break;
-            // case 'Q':
-            //     if ( enemy.canAttack) {
-            //         enemy.attack();
-            //         enemy.canAttack = false; // Disable further attacks until reset
-            //     }
-
-            // Reset attack availability when the button is released
-
-            break;
 
     }
 })
 
 window.addEventListener("keyup", function (e) {
     switch (e.key) {
-        //   case "ArrowUp":
-        //   case "ArrowDown":
 
-        //       break;
         case "ArrowLeft":
             keys.leftkey.prass = false;
             break;
@@ -684,10 +616,7 @@ window.addEventListener("keyup", function (e) {
         case "Q":
             enemy.canAttack = true;
             break;
-        //   case 'Enter':
-        //     player.isAtccing=false;
-        //    break;  if (!attackmaya) {
-        // Re-enable attack on release
+
     }
 
 
