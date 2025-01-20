@@ -147,7 +147,7 @@ const keys2 = {
 
 }
 
-let k2;
+
 let flag2 = false;
 
 function isover2({ r1, r2 }) {
@@ -158,12 +158,12 @@ function isover2({ r1, r2 }) {
         r1.attacbax.position.y <= r2.attacbax.position.y + r2.attacbax.height
     );
 }
-let y2 = true;
-const div2 = document.querySelector('#countwins2');
+
+const countwins2 = document.querySelector('#countwins2');
 
 function updateWins2() {
 
-    div2.innerHTML = `${enemy2.wins} :  ${player2.wins} `;
+    countwins2.innerHTML = `${enemy2.wins} :  ${player2.wins} `;
 
 }
 let gamecontrolindex2 = null;
@@ -208,10 +208,12 @@ function controlerinput() {
         if (attackmaya2 && player2.canAttack) {
             player2.attack();
             player2.canAttack = false;
+            player2.isAttacking=true;
         }
 
         if (!attackmaya2) {
             player2.canAttack = true;
+            player2.isAttacking=false;
         }
 
         if (buttons2[8].pressed) {
@@ -272,12 +274,6 @@ function anameit2() {
     player2.velocity.x = 0;
     enemy2.velocity.x = 0;
 
-
-
-
-
-
-
     enemyAI()
     controlerinput();
 
@@ -288,13 +284,13 @@ function anameit2() {
             player2.position.y <= shop2.position.y + shop2.height) {
             if (backround2.getimgSrc() === './img/back2.jpg') {
                 movetonew2();
-           
+
             }
         }
         else if (player2.position.y <= shop2.position.y &&
             player2.position.y >= shop2.position.y - shop2.height) {
             movetoold2();
-       
+
         }
 
     }
@@ -330,15 +326,15 @@ function anameit2() {
     if (player2.wins === 3) {
         setTimeout(() => {
             gameoveryotam2();
-        }, 1000);
-        notyam2();
+        }, 100);
+      
     }
     if (enemy2.wins === 3) {
         setTimeout(() => {
             gameover2();
-        }, 1000);
+        }, 100);
 
-        notmaya2();
+    
 
     }
 
@@ -423,19 +419,7 @@ function gameoveryotam2() {
 
 
 }
-function notyam2() {
-    gifImg2.style.display = 'none';
-    imgyotam2.style.display = 'none';
 
-
-
-
-    canvas2.style.display = 'block';
-}
-function notmaya2() {
-    imgyotam22.style.display = 'none';
-    canvas2.style.display = 'block';
-}
 function movetonew2() {
 
     backround2.setimgSrc('./img/b80.png');
@@ -500,6 +484,8 @@ function enemyAI() {
 
     enemy2.velocity.x = 0;
 
+
+
     if (Math.abs(distanceX) > 50) {
         if (distanceX > 0) {
             enemy2.velocity.x = Math.min(15, distanceX / 50);
@@ -510,18 +496,7 @@ function enemyAI() {
             enemy2.lastkey = 'l';
             enemy2.switchSptite('run');
         }
-        if (player2.isAttacking) {
-            if (player2.position.x < enemy2.position.x) {
-
-                enemy2.velocity.x = -15;
-                enemy2.lastkey = 'l';
-            } else {
-                enemy2.velocity.x = 15;
-                enemy2.lastkey = 'r';
-            }
-            enemy2.switchSptite('run');
-
-        }
+    
     } else if (Math.abs(distanceX) <= 50 && Math.abs(distanceX) > 10 && !enemy2.isAttacking) {
 
         if (distanceX > 0) {
@@ -529,7 +504,7 @@ function enemyAI() {
         } else {
             enemy2.velocity.x = -2;
         }
-    } if (Math.abs(distanceX) <= 50 && Math.abs(distanceY) <= 50 && !enemy2.isAttacking) {
+    } if (Math.abs(distanceX) <= 50 && Math.abs(distanceY) <= 50 && !enemy2.isAttacking ) {
         if (enemy2.canAttack) {
             enemy2.attack();
             enemy2.canAttack = false;
@@ -548,11 +523,10 @@ function enemyAI() {
     }
 
 
-    if (Math.random() < 0.01 && enemy2.position.y + enemy2.height >= canvas2.height - 400 && !enemy2.isJumping) {
+
+    if (Math.random() < 0.01 && enemy2.position.y + enemy2.height >= canvas2.height - 400) {
         enemy2.velocity.y = -15;
         enemy2.switchSptite('jump');
-        enemy2.isJumping = true;
-        setTimeout(() => { enemy2.isJumping = false; }, 500);
     }
 
 
@@ -565,38 +539,9 @@ function enemyAI() {
 
 
 
-
-
-
-
-
-
-
-
-
 window.addEventListener('keydown', function (e) {
     switch (e.key) {
-        case "ArrowUp":
-            if (player2.position.y + player2.height >= canvas2.height - 400) {
-                player2.velocity.y = -17;
-            }
-            break;
 
-
-        case "ArrowLeft":
-            keys2.leftkey.prass = true;
-            k2 = 'l'
-            break;
-        case "ArrowRight":
-            keys2.rightkey.prass = true;
-            k2 = 'r';
-            break;
-        case ' ':
-            player2.velocity.y = -17
-            break;
-        case 'Enter':
-            player2.attack();
-            break;
         //enemy
         case "w":
             enemy2.velocity.y = -10;

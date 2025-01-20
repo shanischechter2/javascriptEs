@@ -155,7 +155,7 @@ const keys = {
 
 }
 
-let k;
+
 let flag = false;
 let gamecontrolindex = null;
 let leftpress = false;
@@ -174,7 +174,7 @@ function isover({ r1, r2 }) {
         r1.attacbax.position.y <= r2.attacbax.position.y + r2.attacbax.height
     );
 }
-let y = true;
+
 const div = document.querySelector('#countwins');
 
 function updateWins() {
@@ -535,25 +535,6 @@ function movetoold() {
 window.addEventListener('keydown', function (e) {
 
     switch (e.key) {
-
-        case "ArrowUp":
-            player.velocity.y = -10;
-            break;
-
-        case "ArrowLeft":
-            keys.leftkey.prass = true;
-            k = 'l'
-            break;
-        case "ArrowRight":
-            keys.rightkey.prass = true;
-            k = 'r';
-            break;
-        case ' ':
-            player.velocity.y = -17
-            break;
-        case 'Enter':
-            player.attack();
-            break;
 
         //enemy
         case "w":

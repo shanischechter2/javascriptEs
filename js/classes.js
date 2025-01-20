@@ -98,7 +98,6 @@ class Fighter extends Sprite {
             height: 50,
             width: 100,
 
-            offset
         }
         this.color = color;
         this.canAttack = true;
@@ -122,9 +121,7 @@ class Fighter extends Sprite {
         this.animatted();
 
 
-
-
-        this.attacbax.position.x = this.position.x - this.attacbax.offset.x;
+      this.attacbax.position.x = this.position.x ;
         this.attacbax.position.y = this.position.y;
 
         this.position.x += this.velocity.x;
@@ -144,24 +141,6 @@ class Fighter extends Sprite {
         else {
             this.velocity.y += gravity;
 
-        }
-
-
-        if (this.position.x + this.velocity.x <= 0) {
-
-            this.velocity.x = 0;
-            this.position.x = 0;
-        }
-        else if (this.position.x + this.velocity.x >= this.canvas.width) {
-            this.velocity.x = 0;
-            this.position.x = this.canvas.width;
-            this.position.y = 260;
-        }
-
-        if (this.position.x + this.velocity.x <= 0) {
-
-            this.velocity.x = 0;
-            this.position.x = 0;
         }
         if (this.position.x + this.velocity.x <= 0) {
             this.velocity.x = 0;

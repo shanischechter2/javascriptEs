@@ -54,7 +54,7 @@ function controlerinput3() {
 
       setTimeout(() => {
         buttonPressed = false;
-      }, 100);
+      }, 200);
     } else if (!buttons3[1].pressed) {
 
       buttonPressed = false;
@@ -112,7 +112,7 @@ function gameLoop() {
     const leftPressed = gamepad.buttons[14].pressed;
     const rightPressed = gamepad.buttons[15].pressed;
 
-    const stepSize = 10;
+    const stepSize = 5;
 
     if (upPressed) {
       cursorY -= stepSize;
