@@ -3,12 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Maya VS Yotam</title>
 </head>
-<body>
-    <button onclick="tor()" >to regular</button>
-    <button onclick="toa()">to ai</button>
-
+<body class="start">
+    <div >
+   
+    <div class="container"> 
+            <h1>Welcome to the Maya Hitting Yotam Game</h1> 
+            <h1>Game Instructions</h1>
+            <p>Welcome to the game! Here’s how you can play:</p>
+            
+            <p>If you decide to play with your friend:</p>
+            
+            <h2>Yotam Player:</h2>
+            <ol>
+                <li>Use the A and D keys to move your character.</li>
+                <li>Press the W key to jump and the S key to jump higher.</li>
+                <li>Press the Q key to attack.</li>
+            </ol>
+        
+            <h2>Maya Player:</h2>
+            <ol>
+                <li>You will play using the gamepad.</li>
+                <li>Use the arrows or the left stick to move your character.</li>
+                <li>Press the A button to jump.</li>
+                <li>Press the right button to attack.</li>
+            </ol>
+        </div> 
+     <button id="toreg" onclick="tor()" >Play with a friend</button>
+          <button id="toai" onclick="toa()">Play with the computer</button>
+    </div>
+    <div id="cursor"></div>
+    <script src="js/classes.js"></script>
     <script src="home.js"></script>
 </body>
 </html>

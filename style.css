@@ -56,3 +56,121 @@ html, body {
     left:0;
     bottom:0;
 }
+.start{
+    background-image: url('./img/backpagegame2.png');
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+
+    justify-content: center;
+  
+    
+}
+.div1{
+  height: 200px;
+}
+button {
+    flex-direction: row;
+    font-size: 16px;
+    padding: 22px 24px;
+    color: #fff;
+    background: #4a637a;  
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: 20%;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0px 6px 15px rgba(74, 99, 122, 0.3);
+    margin: 30px;
+    margin-top: 20%;
+  }
+  
+  button:hover {
+    background: #2f3a46;  
+    transform: translateY(-3px);
+    scale: 1.3;
+    box-shadow: 0px 10px 25px rgba(61, 79, 99, 0.5);
+  }
+  button.hover {
+    background: #2f3a46;  
+    transform: translateY(-3px);
+    scale: 1.3;
+    box-shadow: 0px 10px 25px rgba(61, 79, 99, 0.5);
+  }
+  
+  button:active {
+    transform: translateY(-10px);
+  }
+  #cursor {
+    cursor: grab;
+    /* background-image: url('./img/cursor1.png'); */
+    /* background-color: rgb(22, 126, 216); */
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    
+
+
+    /* border-radius: 50%; */
+  }
+
+  .container {
+    font-family: 'Arial Black', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px auto;
+    background: linear-gradient(135deg, #1f1f1f, #333, #1f1f1f);
+    color: #fff;
+    max-width: 800px;
+    border: 3px solid #f00;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    overflow: auto; 
+    display: none;/* Allow scrolling within the container */
+}
+
+/* Headings */
+.container h1, .container h2 {
+    text-align: center;
+    color: #f90;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.container h2 {
+    font-size: 1.8rem;
+    color: #ff4d4d;
+}
+
+/* Paragraphs */
+.container p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #eee;
+}
+
+/* Ordered List */
+.container ol {
+    margin-left: 20px;
+    padding: 0;
+    list-style-type: none;
+}
+
+.container ol li {
+    font-size: 1.2rem;
+    margin: 8px 0;
+    color: #fff;
+    position: relative;
+    padding-left: 20px;
+}
+
+.container ol li::before {
+    content: "▶";
+    color: #f90;
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+}

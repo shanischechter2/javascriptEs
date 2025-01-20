@@ -17,15 +17,15 @@ class Sprite{
         this.offset=offset;
         this.framhold=framhold;
         this.canvas=canvas;
-        this.c=canvas.getContext('2d');
+        this.c=this.canvas.getContext('2d');
         this._imgSrc = imgSrc; 
     }
-    // get imgSrc() {
-    //     return this._imgSrc;
-    // }
+    getimgSrc() {
+        return this._imgSrc;
+    }
 
     setimgSrc(newSrc) {
-        // this._imgSrc = newSrc;
+         this._imgSrc = newSrc;
          this.img.src = newSrc; 
       
     }
@@ -135,7 +135,7 @@ class Fighter extends Sprite{
        {
         
          this.velocity.y=0;
-         this.position.y = this.canvas.height - 400 - this.height; // Correct position on the ground
+         this.position.y = this.canvas.height - 400 - this.height; 
 
          // Only switch to "stand" if not moving horizontally
          if (this.velocity.x === 0) {
@@ -148,6 +148,7 @@ class Fighter extends Sprite{
         this.velocity.y+=gravity;
  
         }
+         
     //    if (this.position.x + this.width + this.velocity.x >= canvas.width) {
     //     this.velocity.x = 0;
     
@@ -234,7 +235,7 @@ class Fighter extends Sprite{
                 // this.animatted();
             }
              
-            break;   dameg
+            break;   
             case 'attak1':
                 if(this.img!==this.sprites.attak1.img)
                     {

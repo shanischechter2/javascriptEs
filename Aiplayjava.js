@@ -221,6 +221,10 @@ let attackmaya2=false;
         if (!attackmaya2) {
             player2.canAttack = true; // Re-enable attack on release
         }
+        
+        if (buttons2[8].pressed) {
+            window.location.href = 'homepage.html';
+        }
        // console.log("B7 Pressed:", attackmaya, "Can Attack:", player.canAttack);
 
         
@@ -228,6 +232,8 @@ let attackmaya2=false;
     }
     moveplayer2()
   }
+  const musicjump = new Audio('audio/jumpmusic.wav');
+musicjump.volume = 1;
   function moveplayer2()
   {
     
@@ -247,15 +253,16 @@ let attackmaya2=false;
             
         }
 
-        
+          if(player2.velocity.y<0||player2.velocity.y>0){
+                 player2.switchSptite('jump');
+            } 
     
         
     if(uppress2)
         {
             player2.velocity.y=-10;
-            // if(player.velocity.y<0||player.velocity.y>0){
-            //      player.switchSptite('jump');
-            // } 
+         musicjump.play();
+          
            
         }
    
@@ -318,13 +325,26 @@ enemyAI()
 controlerinput();
 
 updateWins2();
-  if (   player2.position.x >= shop2.position.x &&
-    player2.position.x <= shop2.position.x + shop2.width &&
-    player2.position.y >= shop2.position.y &&
-    player2.position.y <= shop2.position.y + shop2.height)
-  {
-     movetonew2();
-  }
+if (player2.position.x >= shop2.position.x &&
+    player2.position.x <= shop2.position.x + shop2.width  )
+    {
+        if( player2.position.y >= shop2.position.y &&
+            player2.position.y <= shop2.position.y + shop2.height)
+            {
+                 if (backround2.getimgSrc() === './img/back2.jpg') {
+                 movetonew2();
+                 console.log("dd");
+                }
+            }
+            else if( player2.position.y <= shop2.position.y &&
+                player2.position.y <= shop2.position.y + shop2.height)
+            {
+                movetoold2();
+                console.log("old");
+            }
+  
+}
+
     if(isover2({r1: player2, r2: enemy2})&&player2.isAtccing)
     {
        
@@ -498,6 +518,35 @@ function movetonew2()
 
 
 }
+function movetoold2() {
+
+    backround2.setimgSrc('./img/back2.jpg');
+    backround2.position.y = 0;
+    backround2.position.x = 0;
+
+    player2.position.x = 700;
+    enemy2.position.x = 200;
+
+    player2.position.y = 0;
+    enemy2.position.y = 0;
+
+    player2.offset.x = 0;
+    enemy2.offset.x = 0
+
+    player2.offset.y = 80
+    enemy2.offset.y = 70
+
+    player2.scal = 0.5
+    enemy2.scal = 0.5
+    backround2.scal = 1.02;
+
+
+    shop2.position.x = 50
+    shop2.position.y = 230
+
+
+
+}
 function enemyAI() {
     const distanceX = player2.position.x - enemy2.position.x;
     const distanceY = player2.position.y - enemy2.position.y;
@@ -659,9 +708,3 @@ window.addEventListener("keyup", function(e) {
   }
  })
  
-
-
-
-
-
-
