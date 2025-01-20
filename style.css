@@ -5,57 +5,83 @@ html, body {
     height: 100%;
     overflow: hidden; /* Prevent scrolling */
 }
-.conten{
-    position: relative; 
-    display:inline-block;
-}
-.conten2{
-    position:absolute; 
-    display:flex; width:100%;
-     align-items:center;
-}
-.contenplayerlife{
+.conten {
     position: relative;
-     height: 30px; 
-     width: 100%;
-     display:flex;
-      justify-content: flex-end;
+    display: inline-block;
+    background-color: #1e293b; /* Deep slate background */
+    padding: 10px;
+    border-radius: 10px;
 }
-.b{
-    background-color: rgb(255, 0, 0);
-     height: 30px;
-      width: 100%
-}
-#playerlife,#playerlife2{
-    position:absolute;
-    background-color: rgb(26, 255, 0); 
-    top:0;
-    right:0;
-    bottom:0; 
+
+.conten2 {
+    position: absolute;
+    display: flex;
     width: 100%;
+    align-items: center;
 }
-#countwins,#countwins2{
-    background-color: rgb(255, 51, 0);
-     height: 100px; 
-     width: 100px;
-      flex-shrink:0;
-      display:flex;
-      align-items:center; 
-      justify-content: center;
-}
-.contenenemylife{
-    position: relative; 
+
+.contenplayerlife {
+    position: relative;
     height: 30px;
-     width: 100%
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    border: 2px solid #64748b; /* Slate border */
+    background-color: #0f172a; /* Navy background */
+    border-radius: 5px;
 }
-#enemylife,#enemylife2{
-    position:absolute;
-    background-color: rgb(26, 255, 0); 
-    top:0;
-    right:0;
-    left:0;
-    bottom:0;
+
+.b {
+    background-color: #ef4444; /* Bright red background */
+    height: 30px;
+    width: 100%;
+    border-radius: 5px;
 }
+
+#playerlife, #playerlife2 {
+    position: absolute;
+    background-color: #22c55e; /* Green bar */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-radius: 5px;
+}
+
+#countwins, #countwins2 {
+    background-color: #212b3b; /* Bright blue background */
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    height: 100px;
+    width: 100px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contenenemylife {
+    position: relative;
+    height: 30px;
+    width: 100%;
+    background-color: #0f172a; /* Navy background */
+    border: 2px solid #64748b; /* Slate border */
+    border-radius: 5px;
+}
+
+#enemylife, #enemylife2 {
+    position: absolute;
+    background-color: #22c55e; /* Green bar */
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    border-radius: 5px;
+}
+
 .start{
     background-image: url('./img/backpagegame2.png');
     background-attachment: fixed;
